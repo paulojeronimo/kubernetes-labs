@@ -444,17 +444,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Paulo Jerônimo</span><br>
 <span id="email" class="email"><a href="mailto:pj@paulojeronimo.com">pj@paulojeronimo.com</a></span><br>
-<span id="revdate">2021-02-09 10:54:38 -0300</span>
+<span id="revdate">2021-02-09 11:47:26 -0300</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#lab1-installing-kubectl">1. Lab1: Installing kubectl</a>
+<li><a href="#lab1">1. Lab1: Installing kubectl</a>
 <ul class="sectlevel2">
 <li><a href="#references">1.1. References</a></li>
 </ul>
 </li>
-<li><a href="#lab2-kubernetes-on-docker-desktop">2. Lab2: Kubernetes on Docker Desktop</a>
+<li><a href="#lab2">2. Lab2: Kubernetes on Docker Desktop</a>
 <ul class="sectlevel2">
 <li><a href="#docker-desktop-installation">2.1. Docker Desktop installation</a></li>
 <li><a href="#check-the-installation">2.2. Check the installation</a></li>
@@ -462,14 +462,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#references-2">2.4. References</a></li>
 </ul>
 </li>
-<li><a href="#lab-3-installing-kubernetes-dashboard">3. Lab 3: Installing Kubernetes Dashboard</a>
+<li><a href="#lab3">3. Lab 3: Installing Kubernetes Dashboard</a>
 <ul class="sectlevel2">
 <li><a href="#references-3">3.1. References</a></li>
 </ul>
 </li>
-<li><a href="#lab-4-installing-kafka-on-kubernetes-throught-strimzi">4. Lab 4: Installing Kafka on Kubernetes throught Strimzi</a>
+<li><a href="#lab4">4. Lab 4: Installing Kafka on Kubernetes throught Strimzi</a>
 <ul class="sectlevel2">
-<li><a href="#creatina-a-kafka-namespace">4.1. Creatina a kafka namespace</a></li>
+<li><a href="#creating-a-kafka-namespace">4.1. Creating a kafka namespace</a></li>
 <li><a href="#applying-strimzi-installation-file">4.2. Applying Strimzi installation file</a></li>
 <li><a href="#provision-the-apache-kafka-cluster">4.3. Provision the Apache Kafka cluster</a></li>
 <li><a href="#send-and-receive-messages">4.4. Send and receive messages</a></li>
@@ -481,7 +481,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="lab1-installing-kubectl"><a class="anchor" href="#lab1-installing-kubectl"></a>1. Lab1: Installing kubectl</h2>
+<h2 id="lab1"><a class="anchor" href="#lab1"></a>1. Lab1: Installing kubectl</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>TODO</p>
@@ -499,7 +499,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="lab2-kubernetes-on-docker-desktop"><a class="anchor" href="#lab2-kubernetes-on-docker-desktop"></a>2. Lab2: Kubernetes on Docker Desktop</h2>
+<h2 id="lab2"><a class="anchor" href="#lab2"></a>2. Lab2: Kubernetes on Docker Desktop</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="docker-desktop-installation"><a class="anchor" href="#docker-desktop-installation"></a>2.1. Docker Desktop installation</h3>
@@ -630,7 +630,7 @@ docker-desktop   Ready    master   41m   v1.19.3</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="lab-3-installing-kubernetes-dashboard"><a class="anchor" href="#lab-3-installing-kubernetes-dashboard"></a>3. Lab 3: Installing Kubernetes Dashboard</h2>
+<h2 id="lab3"><a class="anchor" href="#lab3"></a>3. Lab 3: Installing Kubernetes Dashboard</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -672,10 +672,10 @@ following command:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="lab-4-installing-kafka-on-kubernetes-throught-strimzi"><a class="anchor" href="#lab-4-installing-kafka-on-kubernetes-throught-strimzi"></a>4. Lab 4: Installing Kafka on Kubernetes throught Strimzi</h2>
+<h2 id="lab4"><a class="anchor" href="#lab4"></a>4. Lab 4: Installing Kafka on Kubernetes throught Strimzi</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="creatina-a-kafka-namespace"><a class="anchor" href="#creatina-a-kafka-namespace"></a>4.1. Creatina a kafka namespace</h3>
+<h3 id="creating-a-kafka-namespace"><a class="anchor" href="#creating-a-kafka-namespace"></a>4.1. Creating a kafka namespace</h3>
 <div id="k-create-namespace-kafka" class="listingblock">
 <div class="content">
 <pre>$ kubectl create namespace kafka</pre>
@@ -754,15 +754,6 @@ bin/kafka-console-consumer.sh \
 --topic my-topic --from-beginning</pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>If you don't see a command prompt, try pressing enter.
-
-a
-bb
-c</pre>
-</div>
-</div>
 <div class="paragraph">
 <p>On a different terminal, start a producer:</p>
 </div>
@@ -776,6 +767,9 @@ bin/kafka-console-producer.sh \
 --topic my-topic</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Type some messages:</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre>If you don't see a command prompt, try pressing enter.
@@ -786,6 +780,18 @@ bin/kafka-console-producer.sh \
 &gt;bb
 &gt;c
 &gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note the output appearing on the consumer terminal:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>If you don't see a command prompt, try pressing enter.
+
+a
+bb
+c</pre>
 </div>
 </div>
 </div>
