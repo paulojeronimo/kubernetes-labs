@@ -444,7 +444,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Paulo Jerônimo</span><br>
 <span id="email" class="email"><a href="mailto:pj@paulojeronimo.com">pj@paulojeronimo.com</a></span><br>
-<span id="revdate">2021-02-09 07:55:23 -0300</span>
+<span id="revdate">2021-02-09 10:54:38 -0300</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -462,7 +462,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#references-2">2.4. References</a></li>
 </ul>
 </li>
-<li><a href="#lab-3-installing-kubernetes-dashboard">3. Lab 3: Installing Kubernetes Dashboard</a></li>
+<li><a href="#lab-3-installing-kubernetes-dashboard">3. Lab 3: Installing Kubernetes Dashboard</a>
+<ul class="sectlevel2">
+<li><a href="#references-3">3.1. References</a></li>
+</ul>
+</li>
+<li><a href="#lab-4-installing-kafka-on-kubernetes-throught-strimzi">4. Lab 4: Installing Kafka on Kubernetes throught Strimzi</a>
+<ul class="sectlevel2">
+<li><a href="#creatina-a-kafka-namespace">4.1. Creatina a kafka namespace</a></li>
+<li><a href="#applying-strimzi-installation-file">4.2. Applying Strimzi installation file</a></li>
+<li><a href="#provision-the-apache-kafka-cluster">4.3. Provision the Apache Kafka cluster</a></li>
+<li><a href="#send-and-receive-messages">4.4. Send and receive messages</a></li>
+<li><a href="#references-4">4.5. References</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -470,6 +483,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="lab1-installing-kubectl"><a class="anchor" href="#lab1-installing-kubectl"></a>1. Lab1: Installing kubectl</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>TODO</p>
+</div>
 <div class="sect2">
 <h3 id="references"><a class="anchor" href="#references"></a>1.1. References</h3>
 <div class="olist arabic">
@@ -643,19 +659,145 @@ following command:</p>
 <pre>$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | awk '/^deployment-controller-token-/{print $1}') | awk '$1=="token:"{print $2}'</pre>
 </div>
 </div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">References</dt>
-<dd>
+<div class="sect2">
+<h3 id="references-3"><a class="anchor" href="#references-3"></a>3.1. References</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>{uri-kubernates-dashboard}</p>
+<p><a href="https://github.com/kubernetes/dashboard" class="bare">https://github.com/kubernetes/dashboard</a></p>
 </li>
 </ol>
 </div>
-</dd>
-</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="lab-4-installing-kafka-on-kubernetes-throught-strimzi"><a class="anchor" href="#lab-4-installing-kafka-on-kubernetes-throught-strimzi"></a>4. Lab 4: Installing Kafka on Kubernetes throught Strimzi</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="creatina-a-kafka-namespace"><a class="anchor" href="#creatina-a-kafka-namespace"></a>4.1. Creatina a kafka namespace</h3>
+<div id="k-create-namespace-kafka" class="listingblock">
+<div class="content">
+<pre>$ kubectl create namespace kafka</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Warning: apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
+customresourcedefinition.apiextensions.k8s.io/kafkas.kafka.strimzi.io created
+rolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator-entity-operator-delegation created
+clusterrolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator created
+rolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator-topic-operator-delegation created
+customresourcedefinition.apiextensions.k8s.io/kafkausers.kafka.strimzi.io created
+customresourcedefinition.apiextensions.k8s.io/kafkarebalances.kafka.strimzi.io created
+deployment.apps/strimzi-cluster-operator created
+customresourcedefinition.apiextensions.k8s.io/kafkamirrormaker2s.kafka.strimzi.io created
+clusterrole.rbac.authorization.k8s.io/strimzi-entity-operator created
+clusterrole.rbac.authorization.k8s.io/strimzi-cluster-operator-global created
+clusterrolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator-kafka-broker-delegation created
+rolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator created
+clusterrole.rbac.authorization.k8s.io/strimzi-cluster-operator-namespaced created
+clusterrole.rbac.authorization.k8s.io/strimzi-topic-operator created
+clusterrolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator-kafka-client-delegation created
+clusterrole.rbac.authorization.k8s.io/strimzi-kafka-client created
+serviceaccount/strimzi-cluster-operator created
+clusterrole.rbac.authorization.k8s.io/strimzi-kafka-broker created
+customresourcedefinition.apiextensions.k8s.io/kafkatopics.kafka.strimzi.io created
+customresourcedefinition.apiextensions.k8s.io/kafkabridges.kafka.strimzi.io created
+customresourcedefinition.apiextensions.k8s.io/kafkaconnectors.kafka.strimzi.io created
+customresourcedefinition.apiextensions.k8s.io/kafkaconnects2is.kafka.strimzi.io created
+customresourcedefinition.apiextensions.k8s.io/kafkaconnects.kafka.strimzi.io created
+customresourcedefinition.apiextensions.k8s.io/kafkamirrormakers.kafka.strimzi.io created
+configmap/strimzi-cluster-operator created</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="applying-strimzi-installation-file"><a class="anchor" href="#applying-strimzi-installation-file"></a>4.2. Applying Strimzi installation file</h3>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl apply -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
+kafka.kafka.strimzi.io/my-cluster created</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="provision-the-apache-kafka-cluster"><a class="anchor" href="#provision-the-apache-kafka-cluster"></a>4.3. Provision the Apache Kafka cluster</h3>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl apply -f https://strimzi.io/examples/latest/kafka/kafka-persistent-single.yaml -n kafka
+kafka.kafka.strimzi.io/my-cluster condition met</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Wait while Kubernetes starts the required pods, services and so on:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n kafka
+kafka.kafka.strimzi.io/my-cluster condition met</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="send-and-receive-messages"><a class="anchor" href="#send-and-receive-messages"></a>4.4. Send and receive messages</h3>
+<div class="paragraph">
+<p>Start a consumer:</p>
+</div>
+<div id="k-kafka-consumer" class="listingblock">
+<div class="content">
+<pre>$ kubectl -n kafka run kafka-consumer -ti \
+--image=quay.io/strimzi/kafka:0.21.1-kafka-2.7.0 --rm=true \
+--restart=Never -- \
+bin/kafka-console-consumer.sh \
+--bootstrap-server my-cluster-kafka-bootstrap:9092 \
+--topic my-topic --from-beginning</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>If you don't see a command prompt, try pressing enter.
+
+a
+bb
+c</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On a different terminal, start a producer:</p>
+</div>
+<div id="k-kafka-producer" class="listingblock">
+<div class="content">
+<pre>$ kubectl -n kafka run kafka-producer -ti \
+--image=quay.io/strimzi/kafka:0.21.1-kafka-2.7.0 \
+--rm=true --restart=Never -- \
+bin/kafka-console-producer.sh \
+--broker-list my-cluster-kafka-bootstrap:9092 \
+--topic my-topic</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>If you don't see a command prompt, try pressing enter.
+&gt;a
+[2021-02-09 13:24:27,844] WARN [Producer clientId=console-producer] Error while fetching metadata with correlation id 3 : {my-topic=LEADER_NOT_AVAILABLE} (org.apache.kafka.clients.NetworkClient)
+[2021-02-09 13:24:27,956] WARN [Producer clientId=console-producer] Error while fetching metadata with correlation id 4 : {my-topic=LEADER_NOT_AVAILABLE} (org.apache.kafka.clients.NetworkClient)
+[2021-02-09 13:24:28,071] WARN [Producer clientId=console-producer] Error while fetching metadata with correlation id 5 : {my-topic=LEADER_NOT_AVAILABLE} (org.apache.kafka.clients.NetworkClient)
+&gt;bb
+&gt;c
+&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="references-4"><a class="anchor" href="#references-4"></a>4.5. References</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://strimzi.io/quickstarts/" class="bare">https://strimzi.io/quickstarts/</a></p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 </div>
