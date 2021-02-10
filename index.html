@@ -444,7 +444,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Paulo Jerônimo</span><br>
 <span id="email" class="email"><a href="mailto:pj@paulojeronimo.com">pj@paulojeronimo.com</a></span><br>
-<span id="revdate">2021-02-09 11:47:26 -0300</span>
+<span id="revdate">2021-02-10 07:44:56 -0300</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -462,9 +462,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#references-2">2.4. References</a></li>
 </ul>
 </li>
-<li><a href="#lab3">3. Lab 3: Installing Kubernetes Dashboard</a>
+<li><a href="#lab3">3. Lab 3: Starting, accessing and stoping the Kubernetes Dashboard</a>
 <ul class="sectlevel2">
-<li><a href="#references-3">3.1. References</a></li>
+<li><a href="#starting">3.1. Starting</a></li>
+<li><a href="#accessing">3.2. Accessing</a></li>
+<li><a href="#stoping">3.3. Stoping</a></li>
+<li><a href="#references-3">3.4. References</a></li>
 </ul>
 </li>
 <li><a href="#lab4">4. Lab 4: Installing Kafka on Kubernetes throught Strimzi</a>
@@ -473,7 +476,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#applying-strimzi-installation-file">4.2. Applying Strimzi installation file</a></li>
 <li><a href="#provision-the-apache-kafka-cluster">4.3. Provision the Apache Kafka cluster</a></li>
 <li><a href="#send-and-receive-messages">4.4. Send and receive messages</a></li>
-<li><a href="#references-4">4.5. References</a></li>
+<li><a href="#deleting-the-kafka-namespace">4.5. Deleting the kafka namespace</a></li>
+<li><a href="#references-4">4.6. References</a></li>
 </ul>
 </li>
 </ul>
@@ -594,13 +598,19 @@ docker-desktop   Ready    master   41m   v1.19.3</pre>
 </div>
 <div class="sect2">
 <h3 id="alternatives"><a class="anchor" href="#alternatives"></a>2.3. Alternatives to run Kubernetes locally without Docker Desktop</h3>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://www.okd.io/" target="_blank" rel="noopener">okd</a></p>
+</li>
 <li>
 <p><a href="https://www.okd.io/minishift/" target="_blank" rel="noopener">minishift</a></p>
 </li>
 <li>
 <p><a href="https://minikube.sigs.k8s.io/" target="_blank" rel="noopener">minikube</a></p>
+</li>
+<li>
+<p><a href="https://kind.sigs.k8s.io/" target="_blank" rel="noopener">kind</a></p>
 </li>
 <li>
 <p><a href="https://microk8s.io/" target="_blank" rel="noopener">MicroKS8</a></p>
@@ -611,10 +621,7 @@ docker-desktop   Ready    master   41m   v1.19.3</pre>
 <li>
 <p><a href="https://k3d.io/" target="_blank" rel="noopener">k3d</a></p>
 </li>
-<li>
-<p><a href="https://kind.sigs.k8s.io/" target="_blank" rel="noopener">kind</a></p>
-</li>
-</ul>
+</ol>
 </div>
 </div>
 <div class="sect2">
@@ -630,8 +637,10 @@ docker-desktop   Ready    master   41m   v1.19.3</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="lab3"><a class="anchor" href="#lab3"></a>3. Lab 3: Installing Kubernetes Dashboard</h2>
+<h2 id="lab3"><a class="anchor" href="#lab3"></a>3. Lab 3: Starting, accessing and stoping the Kubernetes Dashboard</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="starting"><a class="anchor" href="#starting"></a>3.1. Starting</h3>
 <div class="listingblock">
 <div class="content">
 <pre>$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml</pre>
@@ -642,6 +651,18 @@ docker-desktop   Ready    master   41m   v1.19.3</pre>
 <pre>$ kubectl get pods --all-namespaces</pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl cluster-info
+Kubernetes master is running at https://kubernetes.docker.internal:6443
+KubeDNS is running at https://kubernetes.docker.internal:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="accessing"><a class="anchor" href="#accessing"></a>3.2. Accessing</h3>
 <div class="listingblock">
 <div class="content">
 <pre>$ kubectl proxy &amp;</pre>
@@ -659,12 +680,48 @@ following command:</p>
 <pre>$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | awk '/^deployment-controller-token-/{print $1}') | awk '$1=="token:"{print $2}'</pre>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="references-3"><a class="anchor" href="#references-3"></a>3.1. References</h3>
+<h3 id="stoping"><a class="anchor" href="#stoping"></a>3.3. Stoping</h3>
+<div class="paragraph">
+<p>Stop the dashboard:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Verify if it is stoped:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl get secret,sa,role,rolebinding,services,deployments --namespace=kube-system | grep dashboard</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl get namespaces</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Stop the <code>kubectl prooxy</code> execution by typing:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kill $(ps -ef | grep 'kubectl proxy' | head -1 | awk '{print $2}')</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="references-3"><a class="anchor" href="#references-3"></a>3.4. References</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p><a href="https://github.com/kubernetes/dashboard" class="bare">https://github.com/kubernetes/dashboard</a></p>
+</li>
+<li>
+<p><a href="https://github.com/kubernetes/dashboard/blob/master/docs/user/accessing-dashboard/README.md" class="bare">https://github.com/kubernetes/dashboard/blob/master/docs/user/accessing-dashboard/README.md</a></p>
 </li>
 </ol>
 </div>
@@ -796,11 +853,39 @@ c</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="references-4"><a class="anchor" href="#references-4"></a>4.5. References</h3>
+<h3 id="deleting-the-kafka-namespace"><a class="anchor" href="#deleting-the-kafka-namespace"></a>4.5. Deleting the kafka namespace</h3>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl delete ns kafka
+namespace "kafka" deleted</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   25h
+kube-node-lease   Active   25h
+kube-public       Active   25h
+kube-system       Active   25h</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="references-4"><a class="anchor" href="#references-4"></a>4.6. References</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p><a href="https://strimzi.io/quickstarts/" class="bare">https://strimzi.io/quickstarts/</a></p>
+</li>
+<li>
+<p><a href="https://strimzi.io/docs/operators/latest/overview.html" class="bare">https://strimzi.io/docs/operators/latest/overview.html</a></p>
+</li>
+<li>
+<p><a href="https://strimzi.io/docs/operators/latest/deploying.html" class="bare">https://strimzi.io/docs/operators/latest/deploying.html</a></p>
+</li>
+<li>
+<p><a href="https://strimzi.io/blog/2020/07/22/tips-and-tricks-for-running-strimzi-with-kubectl/" class="bare">https://strimzi.io/blog/2020/07/22/tips-and-tricks-for-running-strimzi-with-kubectl/</a></p>
 </li>
 </ol>
 </div>
